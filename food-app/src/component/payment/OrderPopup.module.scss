@@ -1,0 +1,110 @@
+.invoice-box {
+  max-width: 800px;
+  margin: auto;
+  padding: 30px;
+  border: 1px solid #eee;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  font-size: 16px;
+  line-height: 24px;
+  font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+  color: #555;
+
+  table {
+    width: 100%;
+    line-height: inherit;
+    text-align: left;
+    border-collapse: collapse;
+
+    td {
+      padding: 5px;
+      vertical-align: top;
+    }
+
+    tr {
+      td:nth-child(2) {
+        text-align: right;
+      }
+
+      &.top table td {
+        padding-bottom: 20px;
+
+        &.title {
+          font-size: 45px;
+          line-height: 45px;
+          color: #333;
+        }
+      }
+
+      &.information table td {
+        padding-bottom: 40px;
+      }
+
+      &.heading td {
+        background: #eee;
+        border-bottom: 1px solid #ddd;
+        font-weight: bold;
+      }
+
+      &.details td {
+        padding-bottom: 20px;
+      }
+
+      &.item {
+        td {
+          border-bottom: 1px solid #eee;
+        }
+
+        &.last td {
+          border-bottom: none;
+        }
+      }
+
+      &.total td:nth-child(2) {
+        border-top: 2px solid #eee;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.actions {
+  text-align: left;
+  padding: 20px;
+
+  button {
+    height: 54px;
+    font: inherit;
+    cursor: pointer;
+    background-color: transparent;
+    border: 1px solid #8a2b06;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 25px;
+    margin-left: 1rem;
+
+    &:hover,
+    &:active {
+      background-color: #5a1a01;
+      border-color: #5a1a01;
+      color: #ffffff;
+    }
+
+    &--alt {
+      color: #8a2b06;
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .invoice-box table tr.top table td {
+    width: 100%;
+    display: block;
+    text-align: center;
+  }
+
+  .invoice-box table tr.information table td {
+    width: 100%;
+    display: block;
+    text-align: center;
+  }
+}

@@ -1,0 +1,18 @@
+.App {
+  width: 80%;
+  margin: 0 auto;
+
+  &-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;
+    padding: 20px;
+    background-color: #e6e1dd;
+
+    li {
+      width: 30%;
+      text-align: center;
+    }
+  }
+}

@@ -1,0 +1,27 @@
+.actions {
+  text-align: center;
+  padding: 20px;
+
+  button {
+    height: 54px;
+    font: inherit;
+    cursor: pointer;
+    background-color: transparent;
+    border: 1px solid #8a2b06;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 25px;
+    margin-left: 1rem;
+
+    &:hover,
+    &:active {
+      background-color: #5a1a01;
+      border-color: #5a1a01;
+      color: #ffffff;
+    }
+
+    &--alt {
+      color: #8a2b06;
+    }
+  }
+}
