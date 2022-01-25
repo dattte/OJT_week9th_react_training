@@ -1,7 +1,7 @@
 import React from "react";
 import Modal from "../../UI/Modal";
 
-import classes from "./CartPopup.module.scss";
+import classes from "./cartPopup.module.scss";
 
 const CartPopup = (props) => {
   return (

@@ -1,4 +1,4 @@
-import classes from "./Cart.module.scss";
+import classes from "./cart.module.scss";
 
 const EmtyCart = () => {
   return (

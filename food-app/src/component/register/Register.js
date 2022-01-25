@@ -4,7 +4,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import user from "../../assets/user";
 
-import classes from "./Register.module.scss";
+import classes from "./register.module.scss";
 
 const validate = (values) => {
   const errors = {};

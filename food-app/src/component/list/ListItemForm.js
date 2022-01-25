@@ -2,7 +2,7 @@ import { useRef } from "react";
 
 import Input from "../../UI/Input";
 
-import classes from "./List.module.scss";
+import classes from "./list.module.scss";
 
 const ListItemForm = (props) => {
   const amountInputRef = useRef();

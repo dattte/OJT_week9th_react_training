@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import classes from "./Modal.module.scss";
+import classes from "./modal.module.scss";
 
 const Backdrop = (props) => {
   return <div className={classes.backdrop} onClick={props.onHidePopup}></div>;

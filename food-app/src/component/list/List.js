@@ -2,7 +2,7 @@ import data from "../../assets/data";
 
 import ListItem from "./ListItem";
 
-import classes from "./List.module.scss";
+import classes from "./list.module.scss";
 
 function List(props) {
   const foodList = data.map((foodItem) => (

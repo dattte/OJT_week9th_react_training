@@ -3,7 +3,7 @@ import { useState, Fragment } from "react";
 
 import Modal from "../../UI/Modal";
 
-import classes from "./CustomAddressPopup.module.scss";
+import classes from "./customAddressPopup.module.scss";
 
 const isEmpty = (value) => value.trim() === "";
 

@@ -11,7 +11,7 @@ import CustomAddressPopup from "../payment/CustomAddressPopup";
 import OrderPopup from "../payment/OrderPopup";
 
 import data from "../../assets/data";
-import classes from "./Menu.module.scss";
+import classes from "./menu.module.scss";
 
 function Menu(props) {
   const cartCtx = useContext(CartContext);

@@ -3,7 +3,7 @@ import CartContext from "../../store/context/cart-context";
 
 import user from "../../assets/user";
 
-import classes from "./Payment.module.scss";
+import classes from "./payment.module.scss";
 
 const Payment = (props) => {
   const cartCtx = useContext(CartContext);

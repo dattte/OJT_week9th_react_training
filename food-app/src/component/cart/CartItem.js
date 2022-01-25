@@ -4,7 +4,7 @@ import Topping from "./topping/Topping";
 import CartPopup from "../cart/CartPopup";
 import CartContext from "../../store/context/cart-context";
 
-import classes from "./Cart.module.scss";
+import classes from "./cart.module.scss";
 
 function CartItem(props) {
   const price = ` £ ${props.price.toFixed(2)}`;
@@ -34,10 +34,12 @@ function CartItem(props) {
   };
 
   const handleRemoveFoodList = (id) => {
-    const remainItem = cartCtx.items.find((item) => item.id === id);
-    if (remainItem.amount === 1) {
+    const remainedItem = cartCtx.items.find((item) => item.id === id);
+    if (remainedItem.amount === 1) {
       handleShowCartPopup();
-    } else cartCtx.removeItem(id);
+    } else {
+      cartCtx.removeItem(id);
+    }
   };
 
   const handleConfirm = (id) => {

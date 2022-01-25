@@ -9,7 +9,7 @@ import useAuth from "./hooks/useAuth";
 
 import Login from "./component/login/Login";
 
-import classes from "./App.module.scss";
+import classes from "./app.module.scss";
 
 function RequireAuth({ children }) {
   const auth = useAuth();
@@ -35,7 +35,7 @@ function App() {
 
   return (
     <AuthProvider>
-      <div className={classes.App}>
+      <div className={classes.app}>
         <Routes>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login onConfirm={handleLogin} />} />

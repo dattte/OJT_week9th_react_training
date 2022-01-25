@@ -3,7 +3,7 @@ import { useContext } from "react";
 import ListItemForm from "./ListItemForm";
 import CartContext from "../../store/context/cart-context";
 
-import classes from "./List.module.scss";
+import classes from "./list.module.scss";
 
 function ListItem(props) {
   const cartCtx = useContext(CartContext);

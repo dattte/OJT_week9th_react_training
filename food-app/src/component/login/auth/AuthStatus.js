@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import CartContext from "../../../store/context/cart-context";
 
-import classes from "./AuthStatus.module.scss";
+import classes from "./authStatus.module.scss";
 
 function AuthStatus() {
   const cartCtx = useContext(CartContext);

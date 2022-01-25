@@ -7,7 +7,7 @@ import user from "../../assets/user";
 import useAuth from "../../hooks/useAuth";
 import Modal from "../../UI/Modal";
 
-import classes from "./Login.module.scss";
+import classes from "./login.module.scss";
 
 const isEmpty = (value) => value.trim() === "";
 
