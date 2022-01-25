@@ -1,0 +1,17 @@
+.status {
+  font-size: 22px;
+
+  .btn {
+    padding: 10px;
+    margin-left: 10px;
+    border-radius: 10px;
+    background-color: #ffffffc4;
+    border: 1px solid #ffffff63;
+    font-size: 20px;
+
+    &:hover {
+      background-color: #ffffff;
+      border: 1px solid #ffffff;
+    }
+  }
+}

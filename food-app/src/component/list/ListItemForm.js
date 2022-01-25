@@ -7,7 +7,7 @@ import classes from "./List.module.scss";
 const ListItemForm = (props) => {
   const amountInputRef = useRef();
 
-  const submitHandler = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     const enteredAmount = amountInputRef.current.value;
     const enteredAmountNumber = +enteredAmount;
@@ -15,7 +15,7 @@ const ListItemForm = (props) => {
   };
 
   return (
-    <form className={classes.total} onSubmit={submitHandler}>
+    <form className={classes.total} onSubmit={handleSubmit}>
       <Input
         ref={amountInputRef}
         input={{

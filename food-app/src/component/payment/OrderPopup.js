@@ -1,7 +1,7 @@
 import { Fragment, useContext } from "react";
 
 import Modal from "../../UI/Modal";
-import CartContext from "../../store/cart-context";
+import CartContext from "../../store/context/cart-context";
 
 import classes from "./OrderPopup.module.scss";
 
@@ -12,7 +12,7 @@ const OrderPopup = (props) => {
     <tr key={foodItem.id} className={classes.item}>
       <td>{foodItem.name}</td>
 
-      <td>$ {foodItem.amount * foodItem.price}</td>
+      <td>£ {foodItem.amount * foodItem.price}</td>
     </tr>
   ));
 
@@ -30,7 +30,7 @@ const OrderPopup = (props) => {
                   <tbody>
                     <tr>
                       <td>
-                        <p>Địa chỉ: </p>
+                        <p>ADDRESS: </p>
                         <p>{props.loginUser.address}</p>
                       </td>
 
@@ -60,6 +60,12 @@ const OrderPopup = (props) => {
             </tr>
 
             {orderData}
+
+            <tr className={classes.heading}>
+              <td>COUPON</td>
+
+              <td>{cartCtx.coupon} %</td>
+            </tr>
 
             <tr className={classes.total}>
               <td></td>

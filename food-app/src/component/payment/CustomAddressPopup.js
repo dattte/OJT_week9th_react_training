@@ -18,7 +18,7 @@ const CustomAddressPopup = (props) => {
   const addressInputRef = useRef();
   const phoneInputRef = useRef();
 
-  const confirmHandler = (event) => {
+  const handleConfirm = (event) => {
     event.preventDefault();
 
     const enteredUsername = usernameInputRef.current.value;
@@ -60,24 +60,25 @@ const CustomAddressPopup = (props) => {
   }`;
 
   const cartModalContent = (
-    <Fragment>
-      <form className={classes.form} onSubmit={confirmHandler}>
+    <div className={classes.form}>
+      <form className={classes["form-block"]} onSubmit={handleConfirm}>
+        <h2>Please enter your custom address</h2>
         <div className={usernameControlClasses}>
-          <label htmlFor="username">Tên</label>
+          <label htmlFor="username">NAME</label>
           <input type="text" id="username" ref={usernameInputRef} />
-          {!formInputSValidity.username && <p>Please enter username</p>}
+          <p>{!formInputSValidity.username && "Please enter username"}</p>
         </div>
 
         <div className={addressControlClasses}>
-          <label htmlFor="address">Địa Chỉ</label>
-          <input type="text" id="address" ref={addressInputRef} />
-          {!formInputSValidity.address && <p>Please enter name</p>}
+          <label htmlFor="address">ADDRESS</label>
+          <textarea type="text" id="address" ref={addressInputRef} />
+          <p>{!formInputSValidity.address && "Please enter name"}</p>
         </div>
 
         <div className={phoneControlClasses}>
-          <label htmlFor="phone">Số Điện Thoại</label>
+          <label htmlFor="phone">PHONENUMBER</label>
           <input type="number" id="phone" ref={phoneInputRef} />
-          {!formInputSValidity.phone && <p>Please enter name</p>}
+          <p>{!formInputSValidity.phone && "Please enter name"}</p>
         </div>
 
         <div className={classes.actions}>
@@ -85,7 +86,7 @@ const CustomAddressPopup = (props) => {
           <button onClick={props.onHidePopup}>Cancel</button>
         </div>
       </form>
-    </Fragment>
+    </div>
   );
 
   const isSubmittingModalContent = <p>Sending order Data ...</p>;

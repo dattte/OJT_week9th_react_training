@@ -1,26 +1,32 @@
 import { useContext } from "react";
-import CartContext from "../../store/cart-context";
+import CartContext from "../../store/context/cart-context";
+
+import user from "../../assets/user";
+
 import classes from "./Payment.module.scss";
 
 const Payment = (props) => {
   const cartCtx = useContext(CartContext);
 
-  const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
+  const totalAmount = `£ ${cartCtx.totalAmount.toFixed(2)}`;
 
   const addCouponToCheckout = (coupon) => {
     cartCtx.addCoupon(coupon.target.value);
   };
 
-  const checkoutHandler = () => {
+  const setAddressDefault = () => {
+    const defaultUser = user.find((item) => {
+      return item.username === props.loginUser.username;
+    });
+    console.log(defaultUser);
+    props.onSetDefaultAddress(defaultUser);
+  };
+
+  const handleCheckout = () => {
     cartCtx.checkoutCart();
   };
 
   const hasItem = cartCtx.items.length > 0;
-
-  const getData = () => {
-    const value = document.getElementsByName("address")[1].checked;
-    console.log(value);
-  };
 
   return (
     <div className={classes.payment}>
@@ -28,6 +34,22 @@ const Payment = (props) => {
         <div className={classes["payment-info__delivery"]}>
           <h2>DELIVERY ADDRESS</h2>
           <p>{props.loginUser.address}</p>
+
+          <input
+            type="radio"
+            onClick={setAddressDefault}
+            name="address"
+            value="default"
+            defaultChecked
+          />
+          <label htmlFor="default">DEFAULT</label>
+          <input
+            type="radio"
+            name="address"
+            onClick={props.onShowCustomAddressPopup}
+            value="custom"
+          />
+          <label htmlFor="custom">CUSTOM</label>
         </div>
         <div className={classes["payment-info__card"]}>
           <h2>PAYMENT CARD NUMBER</h2>
@@ -42,28 +64,18 @@ const Payment = (props) => {
           <option value="10">10%</option>
           <option value="15">15%</option>
         </select>
-
-        <input type="radio" name="address" value="default" defaultChecked />
-        <label htmlFor="default">default</label>
-        <input
-          type="radio"
-          name="address"
-          onClick={props.onShowCustomAddressPopup}
-          value="custom"
-        />
-        <label htmlFor="custom">custom</label>
       </div>
 
       <div className={classes["payment-checkout"]}>
         <button
           disabled={!hasItem}
           className={`${classes.btn} ${classes["btn-checkout"]}`}
-          onClick={checkoutHandler}
+          onClick={handleCheckout}
         >
           Checkout
         </button>
 
-        <p>{totalAmount}</p>
+        <p>TOTAL PRICE: {totalAmount}</p>
         <button
           disabled={!hasItem}
           onClick={props.onShowOrderPopup}
@@ -71,8 +83,6 @@ const Payment = (props) => {
         >
           Order
         </button>
-
-        <button onClick={getData}>Click</button>
       </div>
     </div>
   );

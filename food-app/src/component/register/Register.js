@@ -1,178 +1,147 @@
-import React, { useRef, useState, Fragment } from "react";
-
+import React from "react";
+import { useFormik } from "formik";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+
+import user from "../../assets/user";
 
 import classes from "./Register.module.scss";
 
-const isEmpty = (value) => value.trim() === "";
+const validate = (values) => {
+  const errors = {};
+  if (!values.username) {
+    errors.username = "Required";
+  } else if (values.username.length > 15) {
+    errors.username = "Must be 15 characters or less";
+  }
+
+  if (!values.password) {
+    errors.password = "Required";
+  } else if (values.password.length > 20) {
+    errors.password = "Must be 20 characters or less";
+  }
+
+  if (!values.email) {
+    errors.email = "Required";
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = "Invalid email address";
+  }
+
+  if (!values.phone) {
+    errors.phone = "Required";
+  } else if (values.phone.length > 12) {
+    errors.phone = "Must be 12 characters";
+  }
+
+  if (!values.address) {
+    errors.address = "Required";
+  } else if (values.address.length > 20) {
+    errors.address = "Must be 20 characters or less";
+  }
+
+  return errors;
+};
 
 const Register = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const usernameInputRef = useRef();
-  const passwordInputRef = useRef();
-  const phoneInputRef = useRef();
-  const addressInputRef = useRef();
-  const emailInputRef = useRef();
-
   const from = location.state?.from?.pathname || "/";
 
-  const [formInputSValidity, setFormInputsValidity] = useState({
-    username: true,
-    password: true,
-    phone: true,
-    address: true,
-    email: true,
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+      email: "",
+      phone: "",
+      address: "",
+    },
+    validate,
+    onSubmit: (values) => {
+      user.push({
+        ...values,
+        id: Math.floor(Math.random() * 100),
+      });
+
+      console.log(user);
+
+      navigate(from, { replace: true });
+      // alert(JSON.stringify(values, null, 2));
+    },
   });
 
-  const registerHandler = (event) => {
-    event.preventDefault();
-
-    const enteredUsername = usernameInputRef.current.value;
-    const enteredPassword = passwordInputRef.current.value;
-    const enteredPhone = phoneInputRef.current.value;
-    const enteredAddress = addressInputRef.current.value;
-    const enteredEmail = emailInputRef.current.value;
-
-    const enteredUsernameIsValid = !isEmpty(enteredUsername);
-    const enteredPasswordIsValid = !isEmpty(enteredPassword);
-    const enteredPhoneIsValid = !isEmpty(enteredPhone);
-    const enteredAddressIsValid = !isEmpty(enteredAddress);
-    const enteredEmailIsValid = !isEmpty(enteredEmail);
-
-    const formIsValid =
-      enteredUsernameIsValid &&
-      enteredPasswordIsValid &&
-      enteredPhoneIsValid &&
-      enteredAddressIsValid &&
-      enteredEmailIsValid;
-
-    setFormInputsValidity({
-      username: enteredUsernameIsValid,
-      password: enteredPasswordIsValid,
-      phone: enteredPhoneIsValid,
-      address: enteredAddressIsValid,
-      email: enteredEmailIsValid,
-    });
-
-    if (!formIsValid) {
-      return;
-    }
-
-    props.onConfirm({
-      username: enteredUsername,
-      password: enteredPassword,
-      phone: enteredPhone,
-      address: enteredAddress,
-      email: enteredEmail,
-    });
-
-    navigate(from, { replace: true });
-  };
-
-  const usernameControlClasses = `${classes.control} ${
-    formInputSValidity.username ? "" : classes.invalid
-  }`;
-  const passwordControlClasses = `${classes.control} ${
-    formInputSValidity.password ? "" : classes.invalid
-  }`;
-  const addressControlClasses = `${classes.control} ${
-    formInputSValidity.address ? "" : classes.invalid
-  }`;
-  const phoneControlClasses = `${classes.control} ${
-    formInputSValidity.phone ? "" : classes.invalid
-  }`;
-  const emailControlClasses = `${classes.control} ${
-    formInputSValidity.email ? "" : classes.invalid
-  }`;
-
-  const foodAppregisterContent = (
-    <Fragment>
-      <form className={classes.form} onSubmit={registerHandler}>
-        <div className={usernameControlClasses}>
-          <label htmlFor="username">Account</label>
+  return (
+    <div className={classes["form-block"]}>
+      <form className={classes.form} onSubmit={formik.handleSubmit}>
+        <div className={classes.control}>
+          <label htmlFor="username">username</label>
           <input
-            type="text"
-            className={classes["form-control"]}
             id="username"
-            ref={usernameInputRef}
+            name="username"
+            type="text"
+            onChange={formik.handleChange}
+            value={formik.values.username}
           />
-          {!formInputSValidity.username && <p>Please enter username</p>}
+          {formik.errors.username ? <div>{formik.errors.username}</div> : null}
         </div>
 
-        <div className={passwordControlClasses}>
-          <label htmlFor="password">Mật khẩu</label>
+        <div className={classes.control}>
+          <label htmlFor="password">Password</label>
           <input
-            type="password"
-            className={classes["form-control"]}
             id="password"
-            ref={passwordInputRef}
+            name="password"
+            type="password"
+            onChange={formik.handleChange}
+            value={formik.values.password}
           />
-          {!formInputSValidity.password && <p>Please enter password</p>}
+          {formik.errors.password ? <div>{formik.errors.password}</div> : null}
         </div>
 
-        <div className={emailControlClasses}>
-          <label htmlFor="email">Địa chỉ email</label>
+        <div className={classes.control}>
+          <label htmlFor="email">Email Address</label>
           <input
-            type="text"
-            className={classes["form-control"]}
             id="email"
-            ref={emailInputRef}
+            name="email"
+            type="email"
+            onChange={formik.handleChange}
+            value={formik.values.email}
           />
-          {!formInputSValidity.email && <p>Please enter email</p>}
+          {formik.errors.email ? <div>{formik.errors.email}</div> : null}
         </div>
 
-        <div className={phoneControlClasses}>
-          <label htmlFor="phone">Số Điện thoại</label>
+        <div className={classes.control}>
+          <label htmlFor="phone">Phone Number</label>
           <input
-            type="text"
-            className={classes["form-control"]}
             id="phone"
-            ref={phoneInputRef}
+            name="phone"
+            type="number"
+            onChange={formik.handleChange}
+            value={formik.values.phone}
           />
-          {!formInputSValidity.phone && <p>Please enter phone</p>}
+          {formik.errors.phone ? <div>{formik.errors.phone}</div> : null}
         </div>
 
-        <div className={addressControlClasses}>
-          <label htmlFor="address">Địa Chỉ</label>
-          <input
-            type="text"
-            className={classes["form-control"]}
+        <div className={classes.control}>
+          <label htmlFor="address">Address</label>
+          <textarea
             id="address"
-            ref={addressInputRef}
+            name="address"
+            type="address"
+            onChange={formik.handleChange}
+            value={formik.values.address}
           />
-          {!formInputSValidity.address && <p>Please enter address</p>}
+          {formik.errors.address ? <div>{formik.errors.address}</div> : null}
         </div>
 
         <div className={classes.actions}>
-          <button className={classes.submit}>Submit</button>
+          <button type="submit" className={classes.submit}>
+            Submit
+          </button>
+
           <Link to="/login">
             <button>Login</button>
           </Link>
         </div>
       </form>
-    </Fragment>
-  );
-
-  const isSubmittingregisterContent = <p>Sending register Data ...</p>;
-
-  const didSubmitregisterContent = (
-    <Fragment>
-      <p>Successfully sent the register!</p>
-      <div className={classes.action}>
-        <button className={classes.button} onClick={props.onHidePopup}>
-          Finish
-        </button>
-      </div>
-    </Fragment>
-  );
-
-  return (
-    <div className={classes["form-block"]}>
-      {!props.isSubmitting && !props.didSubmit && foodAppregisterContent}
-      {props.isSubmitting && isSubmittingregisterContent}
-      {!props.isSubmitting && props.didSubmit && didSubmitregisterContent}
     </div>
   );
 };

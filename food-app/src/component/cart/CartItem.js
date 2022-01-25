@@ -2,20 +2,20 @@ import { Fragment, useState, useContext } from "react";
 
 import Topping from "./topping/Topping";
 import CartPopup from "../cart/CartPopup";
-import CartContext from "../../store/cart-context";
+import CartContext from "../../store/context/cart-context";
 
 import classes from "./Cart.module.scss";
 
 function CartItem(props) {
-  const price = `$${props.price.toFixed(2)}`;
+  const price = ` £ ${props.price.toFixed(2)}`;
   const cartCtx = useContext(CartContext);
   const [cartPopupIsShown, setCartPopupIsShown] = useState(false);
 
-  const showCartPopupHandler = () => {
+  const handleShowCartPopup = () => {
     setCartPopupIsShown(true);
   };
 
-  const hideCartPopupHandler = () => {
+  const handleHideCartPopup = () => {
     setCartPopupIsShown(false);
   };
 
@@ -29,14 +29,18 @@ function CartItem(props) {
     />
   ));
 
-  const removeFoodListHandler = (id) => {
+  const handleDeleteFoodList = () => {
+    handleShowCartPopup();
+  };
+
+  const handleRemoveFoodList = (id) => {
     const remainItem = cartCtx.items.find((item) => item.id === id);
     if (remainItem.amount === 1) {
-      showCartPopupHandler();
+      handleShowCartPopup();
     } else cartCtx.removeItem(id);
   };
 
-  const confirmHandler = (id) => {
+  const handleConfirm = (id) => {
     cartCtx.removeItem(id);
     if (cartCtx.items.length === 1) {
       props.onSetIsInvalid(false);
@@ -47,8 +51,8 @@ function CartItem(props) {
     <Fragment>
       {cartPopupIsShown && (
         <CartPopup
-          onConfirm={confirmHandler.bind(null, props.id)}
-          onHideCartPopup={hideCartPopupHandler}
+          onConfirm={handleConfirm.bind(null, props.id)}
+          onHideCartPopup={handleHideCartPopup}
         />
       )}
       <div id={props.id} className={classes["cart-item"]}>
@@ -56,31 +60,51 @@ function CartItem(props) {
           <img src={props.image} alt={props.image} />
         </div>
         <div className={classes["cart-item_price"]}>
-          <h3>{props.name}</h3>
-          {foodToppingData}
-          <div className={classes.action}>
-            <button
-              className={`${classes.btn} ${classes["btn-minus"]}`}
-              onClick={removeFoodListHandler.bind(null, props.id)}
-            >
-              -
-            </button>
-            <span className={classes.amount}>
-              x {props.amount}*{price}
-            </span>
-            <button
-              className={`${classes.btn} ${classes["btn-plus"]}`}
-              onClick={props.onAdd}
-            >
-              +
-            </button>
-          </div>
-          <button
-            className={`${classes.btn} ${classes["btn-trash"]} ${classes.trash}`}
-            onClick={props.onDelete}
-          >
-            <img src="images/trash.png" alt="trash" />
-          </button>
+          <table>
+            <tbody>
+              <tr className={classes.heading}>
+                <td>
+                  <h3>{props.name}</h3>
+                </td>
+                <td>
+                  <div className={classes.action}>
+                    <button
+                      className={`${classes.btn} ${classes["btn-minus"]}`}
+                      onClick={handleRemoveFoodList.bind(null, props.id)}
+                    >
+                      -
+                    </button>
+                    <span className={classes.amount}>
+                      x {props.amount} * {price}
+                    </span>
+                    <button
+                      className={`${classes.btn} ${classes["btn-plus"]}`}
+                      onClick={props.onAdd}
+                    >
+                      +
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td>{foodToppingData}</td>
+                <td></td>
+              </tr>
+
+              <tr>
+                <td></td>
+                <td>
+                  <button
+                    className={`${classes.btn} ${classes["btn-trash"]} ${classes.trash}`}
+                    onClick={handleDeleteFoodList.bind(null, props.id)}
+                  >
+                    <img src="images/trash.png" alt="trash" />
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </Fragment>

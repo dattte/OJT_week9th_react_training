@@ -1,5 +1,6 @@
 import React from "react";
-import fakeAuthProvider from "../component/login/Auth";
+
+import fakeAuthProvider from "../component/login/auth/Auth";
 import AuthContext from "./auth-context";
 
 function AuthProvider({ children }) {

@@ -12,6 +12,10 @@
       background-color: #fff;
       border-radius: 10px;
       border: 3px solid #eaeaea;
+
+      p {
+        font-size: 20px;
+      }
     }
   }
 
@@ -42,6 +46,7 @@
     width: 50px;
     height: 50px;
     padding: 10px;
+    font-size: 20px;
     border-radius: 10px;
 
     &-checkout {

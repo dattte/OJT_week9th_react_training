@@ -1,7 +1,7 @@
 import { useContext } from "react";
 
 import ListItemForm from "./ListItemForm";
-import CartContext from "../../store/cart-context";
+import CartContext from "../../store/context/cart-context";
 
 import classes from "./List.module.scss";
 
@@ -14,7 +14,7 @@ function ListItem(props) {
     }
   });
 
-  const addToCartHandler = (amount) => {
+  const handleAddToCart = (amount) => {
     props.onSetIsValid(true);
     cartCtx.addItem({
       id: props.id,
@@ -30,7 +30,7 @@ function ListItem(props) {
     <div id={props.id} className={classes["list-item"]}>
       <img src={props.image} alt={props.image} />
       {item !== undefined && <p className={classes.amount}>{item?.amount}</p>}
-      <ListItemForm onAddToCart={addToCartHandler} />
+      <ListItemForm onAddToCart={handleAddToCart} />
     </div>
   );
 }

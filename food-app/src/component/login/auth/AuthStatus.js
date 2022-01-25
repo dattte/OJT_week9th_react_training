@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-import useAuth from "../../hooks/useAuth";
+import useAuth from "../../../hooks/useAuth";
+import CartContext from "../../../store/context/cart-context";
 
-import classes from "./Login.module.scss";
+import classes from "./AuthStatus.module.scss";
 
 function AuthStatus() {
+  const cartCtx = useContext(CartContext);
   const auth = useAuth();
   const navigate = useNavigate();
 
   if (!auth.user) {
-    return <p>You are not logged in. PLease login </p>;
+    return <p>Welcome to page, please login</p>;
   }
 
   return (
@@ -20,6 +22,7 @@ function AuthStatus() {
         className={classes.btn}
         onClick={() => {
           auth.signout(() => navigate("/"));
+          cartCtx.clearCart();
         }}
       >
         Sign out

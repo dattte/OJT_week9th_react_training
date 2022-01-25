@@ -27,11 +27,11 @@ const Login = (props) => {
 
   const from = location.state?.from?.pathname || "/";
 
-  const popupOpenHandler = () => {
+  const openPopup = () => {
     setWrongPopupIsShown(true);
   };
 
-  const popupCloseHandler = () => {
+  const closePopup = () => {
     setWrongPopupIsShown(false);
   };
 
@@ -63,7 +63,7 @@ const Login = (props) => {
       auth.signin(enteredUsername, () => {
         navigate(from, { replace: true });
       });
-    } else return popupOpenHandler();
+    } else return openPopup();
   }
 
   const usernameControlClasses = `${classes.control} ${
@@ -84,18 +84,18 @@ const Login = (props) => {
             id="username"
             ref={usernameInputRef}
           />
-          {!formInputSValidity.username && <p>Please enter username</p>}
+          <p>{!formInputSValidity.username && "Please enter username"}</p>
         </div>
 
         <div className={passwordControlClasses}>
-          <label htmlFor="password">Mật khẩu</label>
+          <label htmlFor="password">Password</label>
           <input
             type="password"
             className={classes["form-control"]}
             id="password"
             ref={passwordInputRef}
           />
-          {!formInputSValidity.password && <p>Please enter password</p>}
+          <p>{!formInputSValidity.password && "Please enter password"}</p>
         </div>
 
         <div className={classes.actions}>
@@ -117,7 +117,7 @@ const Login = (props) => {
     <React.Fragment>
       <p>Wrong password or username, please try again</p>
       <div className={classes.action}>
-        <button className={classes.button} onClick={popupCloseHandler}>
+        <button className={classes.button} onClick={closePopup}>
           Finish
         </button>
       </div>
@@ -128,7 +128,7 @@ const Login = (props) => {
     <div className={classes["form-block"]}>
       {!props.isSubmitting && !props.didSubmit && foodAppLoginContent}
       {wrongPopupIsShown && (
-        <Modal onClick={popupCloseHandler}>{didSubmitLoginContent}</Modal>
+        <Modal onClick={closePopup}>{didSubmitLoginContent}</Modal>
       )}
       {/* {props.isSubmitting && isSubmittingLoginContent}
       {!props.isSubmitting && props.didSubmit && didSubmitLoginContent} */}

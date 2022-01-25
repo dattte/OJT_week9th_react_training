@@ -1,20 +1,12 @@
 import { useContext, Fragment } from "react";
 
-import CartContext from "../../store/cart-context";
+import CartContext from "../../store/context/cart-context";
 import CartItem from "./CartItem";
 
 function Cart(props) {
   const cartCtx = useContext(CartContext);
 
-  const deleteFoodListHandler = (id) => {
-    cartCtx.deleteItem(id);
-
-    if (cartCtx.items.length === 1) {
-      props.onSetIsInvalid(false);
-    }
-  };
-
-  const addFoodListHandler = (item) => {
+  const handlerAddFoodList = (item) => {
     cartCtx.addItem({ ...item, amount: 1 });
   };
 
@@ -28,8 +20,7 @@ function Cart(props) {
       price={foodItem.price}
       topping={foodItem.topping}
       onSetIsInvalid={props.onSetIsInvalid}
-      onDelete={deleteFoodListHandler.bind(null, foodItem.id)}
-      onAdd={addFoodListHandler.bind(null, foodItem)}
+      onAdd={handlerAddFoodList.bind(null, foodItem)}
     />
   ));
 

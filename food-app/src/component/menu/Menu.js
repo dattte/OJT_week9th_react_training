@@ -1,52 +1,60 @@
 import React, { useState, useContext } from "react";
+import { Link } from "react-router-dom";
+import AuthStatus from "../login/auth/AuthStatus";
 
 import Cart from "../cart/Cart";
-import CartContext from "../../store/cart-context";
+import CartContext from "../../store/context/cart-context";
 import List from "../list/List";
 import Payment from "../payment/Payment";
 import EmtyCart from "../cart/EmtyCart";
 import CustomAddressPopup from "../payment/CustomAddressPopup";
 import OrderPopup from "../payment/OrderPopup";
 
+import data from "../../assets/data";
 import classes from "./Menu.module.scss";
 
 function Menu(props) {
   const cartCtx = useContext(CartContext);
 
   const [isValid, setIsValid] = useState(false);
+  const [userData, setUserData] = useState(props.loginUser);
   const [popupIsShown, setPopupIsShown] = useState(false);
   const [orderPopupIsShown, setOrderPopupIsShown] = useState(false);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [didSubmit, setDidSubmit] = useState(false);
 
-  const showCustomAddressHandler = () => {
+  const showCustomAddress = () => {
     setPopupIsShown(true);
   };
 
-  const hideCustomAddressHandler = () => {
+  const hideCustomAddress = () => {
     setPopupIsShown(false);
   };
 
-  const showOrderPopupHandler = () => {
+  const showOrderPopup = () => {
     setOrderPopupIsShown(true);
   };
 
-  const hideOrderPopupHandler = () => {
+  const hideOrderPopup = () => {
     setOrderPopupIsShown(false);
+    setIsSubmitting(false);
+
+    setIsSubmitting(false);
+    setDidSubmit(false);
   };
 
-  function switchHandler(value) {
+  function handleSwitch(value) {
     setIsValid(value);
   }
 
-  const submitCustomAddressHandler = async (customAddress) => {
-    await console.log(customAddress, props.loginUser);
+  const submitCustomAddress = async (customAddress) => {
+    await setUserData({ ...userData, address: customAddress.address });
 
-    hideCustomAddressHandler();
+    hideCustomAddress();
   };
 
-  const submitOrderPopupHandler = async (userData, cartData) => {
+  const submitOrderPopup = async (userData, cartData) => {
     setIsSubmitting(true);
 
     // add order address data to back-end
@@ -55,38 +63,55 @@ function Menu(props) {
     setIsSubmitting(false);
     setDidSubmit(true);
     cartCtx.clearCart();
-    hideOrderPopupHandler();
   };
 
   return (
     <div className={classes.menu}>
+      <ul className={classes["menu-nav"]}>
+        <li>
+          <AuthStatus></AuthStatus>
+        </li>
+
+        <li>
+          <Link to="/#">
+            <img src="images/Logo-full-black.png" alt="logo" />
+          </Link>
+        </li>
+
+        <li>
+          <Link to="/">
+            <img src="images/basket2.png" alt="cart" />
+          </Link>
+        </li>
+      </ul>
+
       {popupIsShown && (
         <CustomAddressPopup
           isSubmitting={isSubmitting}
           didSubmit={didSubmit}
-          onConfirm={submitCustomAddressHandler}
-          onHidePopup={hideCustomAddressHandler}
+          onConfirm={submitCustomAddress}
+          onHidePopup={hideCustomAddress}
         />
       )}
 
       {orderPopupIsShown && (
         <OrderPopup
-          loginUser={props.loginUser}
+          loginUser={userData}
           isSubmitting={isSubmitting}
           didSubmit={didSubmit}
-          onConfirm={submitOrderPopupHandler}
-          onHidePopup={hideOrderPopupHandler}
+          onConfirm={submitOrderPopup}
+          onHidePopup={hideOrderPopup}
         />
       )}
 
       <div className={classes["food-body"]}>
         <div className={classes["food-body__list"]}>
-          <h2>Food List</h2>
-          <List onSetIsValid={switchHandler} />
+          <h2>FOOD LIST: {data.length} products</h2>
+          <List onSetIsValid={handleSwitch} />
         </div>
 
         <div className={classes["food-body__cart"]}>
-          <h2>Your Cart</h2>
+          <h2>YOUR CART</h2>
           <div className={classes["cart"]}>
             <div
               className={`${classes["cart-list"]} ${
@@ -101,14 +126,19 @@ function Menu(props) {
                 !isValid ? `${classes["-invalid"]}` : ""
               }`}
             >
-              <Cart onSetIsInvalid={switchHandler} />
+              <Cart onSetIsInvalid={handleSwitch} />
             </div>
 
-            <div className={classes["cart-payment"]}>
+            <div
+              className={`${classes["cart-payment"]} ${
+                cartCtx.items.length === 0 ? `${classes["-invalid"]}` : ""
+              }`}
+            >
               <Payment
-                loginUser={props.loginUser}
-                onShowOrderPopup={showOrderPopupHandler}
-                onShowCustomAddressPopup={showCustomAddressHandler}
+                loginUser={userData}
+                onSetDefaultAddress={submitCustomAddress}
+                onShowOrderPopup={showOrderPopup}
+                onShowCustomAddressPopup={showCustomAddress}
               />
             </div>
           </div>
